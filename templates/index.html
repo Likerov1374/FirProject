@@ -3,42 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-
-    </style>
-    <title>Clicker</title>
+    <title>Flask Cookie Clicker</title>
 </head>
 <body>
-    <h2 id="clicks">0</h2>
-    <button onclick="clicked()">click</button>
-    <button onclick="upg()">upgrade</button>
-    <h3 id="cost_upg">Upgrade costs: </h3>
-    <h3 id="not_enough"></h3>
+    <!-- Выводим переменные, которые передал Flask -->
+    <h2>{{ clicks }}</h2>
 
-    <script>
-        var upgrades = 0
-        var clicks = 0;
-        var clicks_label = document.getElementById("clicks")
-        var not_enough = document.getElementById("not_enough")
-        var cost = document.getElementById("cost_upg")
-        cost.textContent = "Upgrade costs: " + (50 * (upgrades + 1) + 10 * upgrades)
-        function upg(){
-            if (clicks >= 50 + upgrades * 20){
-            clicks -= 50 * (upgrades + 1) + 10 * upgrades
-            upgrades += 1
-            clicks_label.textContent = clicks
-            cost.textContent = "Upgrade costs: " + (50 * (upgrades + 1) + 10 * upgrades)
-            }
-            else {
-                not_enough.textContent = "Недостаточно кликов"
-            }
-        }
-        function clicked(){
-            clicks += 1 + upgrades;
-            clicks_label.textContent = clicks
-            not_enough.textContent = ""
-        };
+    <!-- Форма для клика -->
+    <form method="POST" style="display: inline;">
+        <button type="submit" name="action" value="click">click</button>
+    </form>
 
-    </script>
+    <!-- Форма для улучшения -->
+    <form method="POST" style="display: inline;">
+        <button type="submit" name="action" value="upgrade">upgrade</button>
+    </form>
+
+    <h3>Upgrade costs: {{ cost }}</h3>
+    
+    <!-- Показываем ошибку, если она есть -->
+    {% if error_msg %}
+        <h3 style="color: red;">{{ error_msg }}</h3>
+    {% endif %}
 </body>
 </html>
